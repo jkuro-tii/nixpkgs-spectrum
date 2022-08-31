@@ -1,0 +1,48 @@
+diff -ruN libfreeaptx-0.1.1.orig/Makefile libfreeaptx-0.1.1/Makefile
+--- libfreeaptx-0.1.1.orig/Makefile	2021-07-09 01:38:47.000000000 +0400
++++ libfreeaptx-0.1.1/Makefile	2022-08-31 16:19:44.696149334 +0400
+@@ -23,7 +23,8 @@
+ MINOR = 1
+ PATCH = 1
+ 
+-LIBNAME = lib$(NAME).so
++LIBNAME_SHARED = lib$(NAME).so
++LIBNAME_STATIC = lib$(NAME).a
+ SONAME = $(LIBNAME).$(MAJOR)
+ SOFILENAME = $(SONAME).$(MINOR).$(PATCH)
+ PCNAME = lib$(NAME).pc
+@@ -36,7 +37,13 @@
+ AOBJECTS = $(NAME).o
+ IOBJECTS = $(NAME)enc.o $(NAME)dec.o
+ 
+-BUILD = $(SOFILENAME) $(SONAME) $(LIBNAME) $(IOBJECTS) $(UTILITIES)
++BUILD_SHARED = $(SOFILENAME) $(SONAME) $(LIBNAME) $(IOBJECTS) $(UTILITIES)
++BUILD_STATIC = $(LIBNAME_STATIC) $(IOBJECTS) $(UTILITIES)
++
++LIBNAME = $(LIBNAME_STATIC)
++SONAME = 
++SOFILENAME = 
++BUILD = $(BUILD_STATIC)
+ 
+ default: $(SOFILENAME) $(SONAME) $(LIBNAME) $(UTILITIES) $(HEADERS)
+ 
+@@ -67,8 +74,8 @@
+ 
+ $(IOBJECTS): $(HEADERS)
+ 
+-$(LIBNAME): $(SONAME)
+-	$(LNS) $(SONAME) $@
++$(LIBNAME): $(AOBJECTS)
++	$(AR) $(ARFLAGS) $@ $^
+ 
+ $(SONAME): $(SOFILENAME)
+ 	$(LNS) $(SOFILENAME) $@
+@@ -79,7 +86,7 @@
+ .SUFFIXES: .o .c .static
+ 
+ .o:
+-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< $(LIBNAME)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< -L. -l$(NAME)
+ 
+ .c.o:
+ 	$(CC) $(CFLAGS) $(CPPFLAGS) -I. -c -o $@ $<

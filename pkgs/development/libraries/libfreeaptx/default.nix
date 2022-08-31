@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchFromGitHub }:
+{ lib, stdenv, fetchFromGitHub, bintools }:
 
 stdenv.mkDerivation rec {
   pname = "libfreeaptx";
@@ -20,10 +20,12 @@ stdenv.mkDerivation rec {
   makeFlags = [
     "PREFIX=${placeholder "out"}"
     # disable static builds
-    "ANAME="
-    "AOBJECTS="
-    "STATIC_UTILITIES="
+    #"ANAME="
+    #"AOBJECTS="
+    #"STATIC_UTILITIES="
   ];
+
+  patches = [ ./static.patch ];
 
   enableParallelBuilding = true;
 

@@ -1,0 +1,21 @@
+diff -ruN ldacBT-2.0.2.3.orig/CMakeLists.txt ldacBT-2.0.2.3/CMakeLists.txt
+--- ldacBT-2.0.2.3.orig/CMakeLists.txt	2019-02-15 23:50:00.000000000 +0400
++++ ldacBT-2.0.2.3/CMakeLists.txt	2022-08-31 10:23:08.850768829 +0400
+@@ -38,7 +38,7 @@
+ include_directories(libldac/abr/inc)
+ 
+ # libldacBT_enc
+-add_library(ldacBT_enc SHARED
++add_library(ldacBT_enc STATIC
+         libldac/src/ldaclib.c
+         libldac/src/ldacBT.c
+         )
+@@ -51,7 +51,7 @@
+         )
+ 
+ # libldacBT_abr
+-add_library(ldacBT_abr SHARED
++add_library(ldacBT_abr STATIC
+         libldac/abr/src/ldacBT_abr.c
+         )
+ 

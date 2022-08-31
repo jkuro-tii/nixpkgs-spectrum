@@ -19,6 +19,8 @@ stdenv.mkDerivation rec {
     cmake
   ];
 
+  patches = [ ./static.patch ];
+
   meta = with lib; {
     description = "AOSP libldac dispatcher";
     homepage    = "https://github.com/EHfive/ldacBT";

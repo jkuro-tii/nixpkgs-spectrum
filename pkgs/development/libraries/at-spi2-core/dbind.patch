@@ -1,0 +1,12 @@
+diff -ruN at-spi2-core-2.44.1.orig/dbind/meson.build at-spi2-core-2.44.1/dbind/meson.build
+--- at-spi2-core-2.44.1.orig/dbind/meson.build	1970-01-01 04:00:00.000000000 +0400
++++ at-spi2-core-2.44.1/dbind/meson.build	2022-08-31 12:43:07.851661826 +0400
+@@ -5,7 +5,7 @@
+ 
+ dbind_dep = declare_dependency(sources: dbind_sources,
+                                include_directories: root_inc,
+-                               compile_args: [ '-DG_LOG_DOMAIN="dbind"' ],
++                               compile_args: [ '-DG_LOG_DOMAIN=0' ],
+                                dependencies: [ libdbus_dep, glib_dep ])
+ 
+ test('dbind-test',

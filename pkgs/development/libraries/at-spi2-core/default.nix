@@ -36,6 +36,7 @@ stdenv.mkDerivation rec {
     makeWrapper
   ];
 
+  patches = [ ./dbind.patch ];
   buildInputs = [
     libX11
     # at-spi2-core can be build without X support, but due it is a client-side library, GUI-less usage is a very rare case

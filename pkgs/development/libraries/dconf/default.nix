@@ -21,8 +21,7 @@ stdenv.mkDerivation rec {
   pname = "dconf";
   version = "0.40.0";
 
-  outputs = [ "out" "lib" "dev" ]
-    ++ lib.optional (!isCross) "devdoc";
+  outputs = [ "out" "lib" "dev" ];
 
   src = fetchurl {
     url = "mirror://gnome/sources/${pname}/${lib.versions.majorMinor version}/${pname}-${version}.tar.xz";
@@ -38,7 +37,7 @@ stdenv.mkDerivation rec {
     glib
     docbook-xsl-nons
     docbook_xml_dtd_42
-  ] ++ lib.optional (!isCross) gtk-doc;
+  ];
 
   buildInputs = [
     glib
@@ -47,9 +46,11 @@ stdenv.mkDerivation rec {
   ] ++ lib.optional (!isCross) vala;
   # Vala cross compilation is broken. For now, build dconf without vapi when cross-compiling.
 
+  patches = [ ./static.patch ];
+
   mesonFlags = [
     "--sysconfdir=/etc"
-    "-Dgtk_doc=${lib.boolToString (!isCross)}" # gtk-doc does do some gobject introspection, which doesn't yet cross-compile.
+    "-Dgtk_doc=${lib.boolToString (false)}" # gtk-doc does do some gobject introspection, which doesn't yet cross-compile.
   ] ++ lib.optional isCross "-Dvapi=false";
 
   checkInputs = [

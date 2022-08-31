@@ -21,13 +21,18 @@ stdenv.mkDerivation rec {
     # don't have structuredAttrs yet and using placeholder causes permissions
     # denied errors. Using $dev / $man in configureFlags causes bash evaluation
     # errors
+    #
+    # The configureFlag is set to empty in order to clear --disable-shared and --enable-static flags
+    # which are found invalid by the configure script. The --prefix flag is still assigned
   ''
+    echo $configureFlags
+    configureFlags=""
+    echo $configureFlags
     configureFlagsArray+=(
       "--includedir=$dev/include"
       "--mandir=$man/share/man"
     )
   '';
-
   # Doesn't recognize platform flags
   configurePlatforms = [];
 
