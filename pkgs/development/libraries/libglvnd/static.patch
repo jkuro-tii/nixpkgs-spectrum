@@ -1,0 +1,213 @@
+diff -ruN libglvnd-v1.4.0.orig/src/EGL/Makefile.am libglvnd-v1.4.0/src/EGL/Makefile.am
+--- libglvnd-v1.4.0.orig/src/EGL/Makefile.am	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/EGL/Makefile.am	2022-08-31 16:49:37.107107955 +0400
+@@ -66,7 +66,7 @@
+ libEGL_la_LIBADD += $(UTIL_DIR)/libwinsys_dispatch.la
+ libEGL_la_LIBADD += libEGL_dispatch_stubs.la
+ 
+-libEGL_la_LDFLAGS = -shared -Wl,-Bsymbolic -version-info 2:0:1 $(LINKER_FLAG_NO_UNDEFINED)
++libEGL_la_LDFLAGS = -static -Wl,-Bsymbolic -version-info 2:0:1 $(LINKER_FLAG_NO_UNDEFINED)
+ 
+ libEGL_la_SOURCES = \
+ 	libegl.c \
+diff -ruN libglvnd-v1.4.0.orig/src/EGL/meson.build libglvnd-v1.4.0/src/EGL/meson.build
+--- libglvnd-v1.4.0.orig/src/EGL/meson.build	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/EGL/meson.build	2022-08-31 16:49:24.642918585 +0400
+@@ -29,7 +29,7 @@
+   gnu_symbol_visibility : 'hidden',
+ )
+ 
+-libEGL = shared_library(
++libEGL = static_library(
+   'EGL',
+   [
+     'libegl.c',
+diff -ruN libglvnd-v1.4.0.orig/src/GL/Makefile.am libglvnd-v1.4.0/src/GL/Makefile.am
+--- libglvnd-v1.4.0.orig/src/GL/Makefile.am	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/GL/Makefile.am	2022-08-31 16:49:13.318746546 +0400
+@@ -60,7 +60,7 @@
+ libGL_la_CFLAGS = \
+ 	-I$(top_srcdir)/include
+ 
+-libGL_la_LDFLAGS = -shared -version-info 8:0:7 $(LINKER_FLAG_NO_UNDEFINED)
++libGL_la_LDFLAGS = -static -version-info 8:0:7 $(LINKER_FLAG_NO_UNDEFINED)
+ 
+ AM_CPPFLAGS = \
+ 	-I$(TOP)/src/GLdispatch/vnd-glapi \
+diff -ruN libglvnd-v1.4.0.orig/src/GL/meson.build libglvnd-v1.4.0/src/GL/meson.build
+--- libglvnd-v1.4.0.orig/src/GL/meson.build	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/GL/meson.build	2022-08-31 16:49:01.942573715 +0400
+@@ -22,7 +22,7 @@
+ # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ # MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
+ 
+-libGL = shared_library(
++libGL = static_library(
+   'GL',
+   ['libgl.c', g_libglglxwrapper_c],
+   include_directories : [inc_include],
+diff -ruN libglvnd-v1.4.0.orig/src/GLdispatch/Makefile.am libglvnd-v1.4.0/src/GLdispatch/Makefile.am
+--- libglvnd-v1.4.0.orig/src/GLdispatch/Makefile.am	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/GLdispatch/Makefile.am	2022-08-31 16:48:44.214304389 +0400
+@@ -33,7 +33,7 @@
+ libGLdispatch_la_CFLAGS += -I$(srcdir)/vnd-glapi
+ libGLdispatch_la_CFLAGS += -I$(top_srcdir)/include
+ 
+-libGLdispatch_la_LDFLAGS = -shared -version-info 0 $(LINKER_FLAG_NO_UNDEFINED)
++libGLdispatch_la_LDFLAGS = -static -version-info 0 $(LINKER_FLAG_NO_UNDEFINED)
+ 
+ if GLDISPATCH_USE_TLS
+ VERSION_SCRIPT=$(top_srcdir)/src/GLdispatch/export_list_tls.ver
+diff -ruN libglvnd-v1.4.0.orig/src/GLdispatch/meson.build libglvnd-v1.4.0/src/GLdispatch/meson.build
+--- libglvnd-v1.4.0.orig/src/GLdispatch/meson.build	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/GLdispatch/meson.build	2022-08-31 16:48:26.994042803 +0400
+@@ -30,7 +30,7 @@
+ endif
+ _ver_script = join_paths(meson.current_source_dir(), _ver_script)
+ 
+-libgldispatch = shared_library(
++libgldispatch = static_library(
+   'GLdispatch',
+   ['GLdispatch.c'],
+   include_directories : [include_directories('vnd-glapi'), inc_include],
+diff -ruN libglvnd-v1.4.0.orig/src/GLESv1/Makefile.am libglvnd-v1.4.0/src/GLESv1/Makefile.am
+--- libglvnd-v1.4.0.orig/src/GLESv1/Makefile.am	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/GLESv1/Makefile.am	2022-08-31 16:48:14.953859907 +0400
+@@ -24,7 +24,7 @@
+ lib_LTLIBRARIES = libGLESv1_CM.la
+ 
+ libGLESv1_CM_la_SOURCES =
+-libGLESv1_CM_la_LDFLAGS = -shared \
++libGLESv1_CM_la_LDFLAGS = -static \
+ 	$(LINKER_FLAG_NO_UNDEFINED) \
+ 	-version-info 3:0:2
+ 
+diff -ruN libglvnd-v1.4.0.orig/src/GLESv1/meson.build libglvnd-v1.4.0/src/GLESv1/meson.build
+--- libglvnd-v1.4.0.orig/src/GLESv1/meson.build	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/GLESv1/meson.build	2022-08-31 16:48:01.305652571 +0400
+@@ -21,7 +21,7 @@
+ # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ # MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
+ 
+-libGLESv1 = shared_library(
++libGLESv1 = static_library(
+   'GLESv1_CM',
+   link_whole : libopengl_main,
+   dependencies : [
+diff -ruN libglvnd-v1.4.0.orig/src/GLESv2/Makefile.am libglvnd-v1.4.0/src/GLESv2/Makefile.am
+--- libglvnd-v1.4.0.orig/src/GLESv2/Makefile.am	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/GLESv2/Makefile.am	2022-08-31 16:50:40.140065694 +0400
+@@ -24,7 +24,7 @@
+ lib_LTLIBRARIES = libGLESv2.la
+ 
+ libGLESv2_la_SOURCES =
+-libGLESv2_la_LDFLAGS = -shared \
++libGLESv2_la_LDFLAGS = -static \
+ 	$(LINKER_FLAG_NO_UNDEFINED) \
+ 	-version-info 3:0:1
+ 
+diff -ruN libglvnd-v1.4.0.orig/src/GLESv2/meson.build libglvnd-v1.4.0/src/GLESv2/meson.build
+--- libglvnd-v1.4.0.orig/src/GLESv2/meson.build	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/GLESv2/meson.build	2022-08-31 16:50:28.179883968 +0400
+@@ -22,7 +22,7 @@
+ # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ # MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
+ 
+-libGLESv2 = shared_library(
++libGLESv2 = static_library(
+   'GLESv2',
+   link_whole : libopengl_main,
+   dependencies : [
+diff -ruN libglvnd-v1.4.0.orig/src/GLX/Makefile.am libglvnd-v1.4.0/src/GLX/Makefile.am
+--- libglvnd-v1.4.0.orig/src/GLX/Makefile.am	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/GLX/Makefile.am	2022-08-31 16:51:05.784455357 +0400
+@@ -58,7 +58,7 @@
+ libGLX_la_LIBADD += $(UTIL_DIR)/libapp_error_check.la
+ libGLX_la_LIBADD += $(UTIL_DIR)/libwinsys_dispatch.la
+ 
+-libGLX_la_LDFLAGS = -shared -Wl,-Bsymbolic -version-info 0 $(LINKER_FLAG_NO_UNDEFINED)
++libGLX_la_LDFLAGS = -static -Wl,-Bsymbolic -version-info 0 $(LINKER_FLAG_NO_UNDEFINED)
+ 
+ GENERATE_DISPATCH_STUBS_SCRIPT = $(top_srcdir)/src/GLX/gen_glx_stubs.py
+ EXTRA_DIST = $(GENERATE_DISPATCH_STUBS_SCRIPT)
+diff -ruN libglvnd-v1.4.0.orig/src/GLX/meson.build libglvnd-v1.4.0/src/GLX/meson.build
+--- libglvnd-v1.4.0.orig/src/GLX/meson.build	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/GLX/meson.build	2022-08-31 16:50:51.788242676 +0400
+@@ -29,7 +29,7 @@
+   capture : true,
+ )
+ 
+-libGLX = shared_library(
++libGLX = static_library(
+   'GLX',
+   [
+     'libglx.c',
+diff -ruN libglvnd-v1.4.0.orig/src/OpenGL/Makefile.am libglvnd-v1.4.0/src/OpenGL/Makefile.am
+--- libglvnd-v1.4.0.orig/src/OpenGL/Makefile.am	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/OpenGL/Makefile.am	2022-08-31 16:50:15.895697299 +0400
+@@ -33,7 +33,7 @@
+ lib_LTLIBRARIES = libOpenGL.la
+ 
+ libOpenGL_la_SOURCES =
+-libOpenGL_la_LDFLAGS = -shared \
++libOpenGL_la_LDFLAGS = -static \
+ 	$(LINKER_FLAG_NO_UNDEFINED) \
+ 	-version-info 0
+ 
+diff -ruN libglvnd-v1.4.0.orig/src/OpenGL/meson.build libglvnd-v1.4.0/src/OpenGL/meson.build
+--- libglvnd-v1.4.0.orig/src/OpenGL/meson.build	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/src/OpenGL/meson.build	2022-08-31 16:50:02.127488096 +0400
+@@ -28,7 +28,7 @@
+   gnu_symbol_visibility : 'hidden',
+ )
+ 
+-libOpenGL = shared_library(
++libOpenGL = static_library(
+   'OpenGL',
+   link_whole : libopengl_main,
+   dependencies : [idep_gldispatch, idep_glapi_opengl, idep_utils_misc],
+diff -ruN libglvnd-v1.4.0.orig/tests/dummy/Makefile.am libglvnd-v1.4.0/tests/dummy/Makefile.am
+--- libglvnd-v1.4.0.orig/tests/dummy/Makefile.am	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/tests/dummy/Makefile.am	2022-08-31 16:37:57.872498933 +0400
+@@ -26,11 +26,7 @@
+ libGLX_dummy_la_LIBADD += $(top_builddir)/src/util/libutils_misc.la
+ libGLX_dummy_la_LIBADD += libpatchentrypoints.la
+ libGLX_dummy_la_LIBADD += $(X11_LIBS)
+-# The -rpath option forces libtool to create a shared library instead of just a
+-# static library.
+ libGLX_dummy_la_LDFLAGS = \
+-	-shared \
+-	-rpath /nowhere \
+ 	 $(LINKER_FLAG_NO_UNDEFINED)
+ endif # ENABLE_GLX
+ 
+@@ -44,8 +40,6 @@
+ 	$(top_builddir)/src/util/libtrace.la \
+ 	$(top_builddir)/src/util/libutils_misc.la
+ EGL_DUMMY_LDFLAGS_COMMON = \
+-	-shared \
+-	-rpath /nowhere \
+ 	 $(LINKER_FLAG_NO_UNDEFINED)
+ 
+ check_LTLIBRARIES += libEGL_dummy0.la
+diff -ruN libglvnd-v1.4.0.orig/tests/dummy/meson.build libglvnd-v1.4.0/tests/dummy/meson.build
+--- libglvnd-v1.4.0.orig/tests/dummy/meson.build	2021-12-17 19:49:38.000000000 +0400
++++ libglvnd-v1.4.0/tests/dummy/meson.build	2022-08-31 16:47:43.541382752 +0400
+@@ -30,7 +30,7 @@
+ prog_cp = find_program('cp')
+ 
+ if with_glx
+-  libGLX_dummy = shared_library(
++  libGLX_dummy = static_library(
+     'GLX_dummy',
+     ['GLX_dummy.c'],
+     include_directories : [inc_dispatch, inc_glx, inc_include],
+@@ -44,7 +44,7 @@
+ 
+ if get_option('egl')
+   foreach v : ['0', '1']
+-    libEGL_dummy += shared_library(
++    libEGL_dummy += static_library(
+       'EGL_dummy' + v,
+       ['EGL_dummy.c'],
+       c_args : ['-DDUMMY_VENDOR_NAME="dummy@0@"'.format(v)],

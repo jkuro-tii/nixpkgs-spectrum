@@ -18,6 +18,8 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ autoreconfHook pkg-config python3 addOpenGLRunpath ];
   buildInputs = [ libX11 libXext xorgproto ];
 
+  patches = [ ./static.patch ];
+
   postPatch = lib.optionalString stdenv.isDarwin ''
     substituteInPlace src/GLX/Makefile.am \
       --replace "-Wl,-Bsymbolic " ""
