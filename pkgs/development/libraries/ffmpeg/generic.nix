@@ -48,6 +48,7 @@
  */
 
 let
+  srt = null;
   inherit (stdenv) isDarwin isFreeBSD isLinux isAarch32;
   inherit (lib) optional optionals optionalString enableFeature filter;
 
