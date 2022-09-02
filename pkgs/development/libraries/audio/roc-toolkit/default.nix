@@ -6,7 +6,7 @@
   gengetopt,
   pkg-config,
   libuv,
-  openfecSupport ? true,
+  openfecSupport ? false,
   openfec,
   libunwindSupport ? true,
   libunwind,
@@ -32,12 +32,15 @@ stdenv.mkDerivation rec {
     pkg-config
   ];
 
-  buildInputs = [
-    libuv
-    libunwind
-    openfec
-    libpulseaudio
-  ];
+  buildInputs = 
+    [
+      libuv
+      libunwind
+      libpulseaudio
+    ]  ++
+    (if (openfecSupport)
+      then [ openfec ]
+      else [ ]);
 
   sconsFlags =
     [ "--build=${stdenv.buildPlatform.config}"
