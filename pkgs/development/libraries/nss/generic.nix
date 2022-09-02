@@ -10,7 +10,7 @@
 , darwin
 , fixDarwinDylibNames
 , buildPackages
-, useP11kit ? true
+, useP11kit ? false
 , p11-kit
 , # allow FIPS mode. Note that this makes the output non-reproducible.
   # https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Tech_Notes/nss_tech_note6
