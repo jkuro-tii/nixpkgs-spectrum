@@ -4,7 +4,7 @@
 , cxxBindings ? !stdenv.hostPlatform.isStatic # tries to link libstdc++.so
 , guileBindings ? config.gnutls.guile or false, guile
 , tpmSupport ? false, trousers, which, nettools, libunistring
-, withP11-kit ? !stdenv.hostPlatform.isStatic, p11-kit
+, withP11-kit ? false, p11-kit
 , withSecurity ? false, Security  # darwin Security.framework
 }:
 
