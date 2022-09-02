@@ -19,6 +19,7 @@ stdenv.mkDerivation rec {
 
   enableParallelBuilding = true;
 
+  patches = [ ./EXTERNAL_MPEG_LIBS.patch ];
   outputs = [ "bin" "dev" "out" "man" "doc" ];
 
   # need headers from the Carbon.framework in /System/Library/Frameworks to

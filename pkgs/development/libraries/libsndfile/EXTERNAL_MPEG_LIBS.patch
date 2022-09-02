@@ -1,0 +1,10 @@
+diff -ruN libsndfile-1.1.0.orig/sndfile.pc.in libsndfile-1.1.0/sndfile.pc.in
+--- libsndfile-1.1.0.orig/sndfile.pc.in	1970-01-01 04:00:01.000000000 +0400
++++ libsndfile-1.1.0/sndfile.pc.in	2022-09-02 10:08:36.761299330 +0400
+@@ -9,5 +9,5 @@
+ Requires.private: @EXTERNAL_XIPH_REQUIRE@ @EXTERNAL_MPEG_REQUIRE@
+ Version: @VERSION@
+ Libs: -L${libdir} -lsndfile
+-Libs.private: @EXTERNAL_MPEG_LIBS@
++Libs.private:
+ Cflags: -I${includedir}
