@@ -12,7 +12,7 @@ diff -crb --new-file a/lib/error.h b/lib/error.h
 + #include <stdlib.h>
 + #include <string.h>
 + #include <errno.h>
-+ 
++ #error rrrr
 + static unsigned int error_message_count = 0;
 + 
 + static inline void error(int status, int errnum, const char* format, ...)

@@ -162,7 +162,8 @@ stdenv.mkDerivation rec {
       "--enable-zlib"
       (ifMinVer "2.8" "--enable-libopus")
       "--enable-libspeex"
-      (ifMinVer "2.8" "--enable-libx265")
+    # breaks static build for aarch64
+      #  (ifMinVer "2.8" "--enable-libx265")
       (ifMinVer "4.2" (enableFeature (dav1d != null) "libdav1d"))
     # Developer flags
       (enableFeature debugDeveloper "debug")
@@ -181,7 +182,7 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     bzip2 fontconfig freetype gnutls libiconv lame libass libogg libssh libtheora
-    libvorbis xz soxr x264 x265 xvidcore zimg zlib libopus speex srt nv-codec-headers
+    libvorbis xz soxr x264 /* x265 */ xvidcore zimg zlib libopus speex srt nv-codec-headers
   ] ++ optionals openglSupport [ libGL libGLU ]
     ++ optional libmfxSupport intel-media-sdk
     ++ optional libaomSupport libaom
